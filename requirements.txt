@@ -1,3 +1,5 @@
 Flask
 textblob
 python-dotenv
+nltk
+gunicorn
