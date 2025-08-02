@@ -18,3 +18,9 @@ It is deployed serverlessly on [Vercel](https://vercel.com).
 - Serverless deployment using Vercel.
 - Lightweight and beginner-friendly.
 
+##  Postman Testing
+
+Refer to the screenshots in the [screenshots](./screenshots/) folder for Postman request and response examples.
+
+
+
