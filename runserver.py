@@ -5,6 +5,13 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
+from flask import send_from_directory
+
+
+@app.route('/favicon.png')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.png', mimetype='image/png')
 
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
