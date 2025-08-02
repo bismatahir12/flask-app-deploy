@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from textblob import TextBlob
 
-views = Blueprint('views', __name__)
+app = Blueprint('app', __name__)
 
 @views.route('/')
 def home():
