@@ -1,4 +1,6 @@
-Flask>=2.2.3
-textblob
-requests
+Flask
+yake
 python-dotenv
+regex
+nltk
+numpy
