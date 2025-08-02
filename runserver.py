@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, send_from_directory, render_template
+from flask import Flask, request, jsonify, render_template
 import nltk
 nltk.data.path.append('./nltk_data') 
 from textblob import TextBlob
@@ -7,9 +7,7 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 app = Flask(
     __name__,
@@ -17,10 +15,8 @@ app = Flask(
     static_folder=os.path.join(BASE_DIR, 'static')
 )
 
-
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,14 +49,6 @@ def extract_keywords():
     except Exception as e:
         logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
-
-@app.route('/favicon.png')
-def favicon():
-    return send_from_directory(
-        os.path.join(BASE_DIR, 'static'),
-        'favicon.png',
-        mimetype='image/png'
-    )
 
 if __name__ == '__main__':
     app.run(debug=True)
