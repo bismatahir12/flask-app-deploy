@@ -7,6 +7,8 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+print("Templates folder path:", app.template_folder)
+
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
