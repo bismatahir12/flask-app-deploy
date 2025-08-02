@@ -1,19 +1,20 @@
-from flask import Blueprint, render_template, request, jsonify
+from flask import Blueprint, render_template, request
 from textblob import TextBlob
 
-views = Blueprint('views', __name__)
+app = Blueprint('app', __name__)
 
-@views.route('/')
+@app.route('/')
 def home():
     return render_template('form.html')
 
 
-@views.route('/api/v1/keywords', methods=['POST'])
+@app.route('/api/v1/keywords', methods=['POST'])
 def extract_keywords():
-    data = request.get_json()
-    text = data.get('text', '')
+    text = request.form.get('text', '')  # Use form data
     if not text:
-        return jsonify({'error': 'Missing text field'}), 400
+        return render_template('form.html', error='Missing text field')
+
     blob = TextBlob(text)
     keywords = list(set(blob.noun_phrases))
-    return jsonify({'keywords': keywords})
+
+    return render_template('form.html', keywords=keywords, original=text)
