@@ -16,12 +16,10 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Home route to serve the HTML form
 @app.route('/')
 def home():
     return render_template('form.html')
 
-# Keyword extraction route for JavaScript fetch request
 @app.route('/api/v1/keywords', methods=['POST'])
 def extract_keywords():
     timestamp = datetime.now().isoformat()
@@ -45,7 +43,6 @@ def extract_keywords():
         logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
 
-# Optional favicon route
 @app.route('/favicon.png')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
