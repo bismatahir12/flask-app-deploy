@@ -1,7 +1,18 @@
 {
-  "builds": [{ "src": "runserver.py", "use": "@vercel/python" }],
+  "builds": [
+    {
+      "src": "runserver.py",
+      "use": "@vercel/python"
+    }
+  ],
   "routes": [
-    { "src": "/api/.*", "dest": "/runserver.py" },
-    { "src": "/.*", "dest": "/runserver.py" }
+    {
+      "src": "/api/.*",
+      "dest": "/runserver.py"
+    },
+    {
+      "src": "/.*",
+      "dest": "/runserver.py"
+    }
   ]
 }
