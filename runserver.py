@@ -5,17 +5,21 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
-# Initialize Flask app with correct templates directory
-app = Flask(__name__, template_folder="templates", static_folder="static")
 
-# Optional: for debug - shows template path
-print("Templates folder path:", app.template_folder)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Load environment variables
+
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, 'templates'),
+    static_folder=os.path.join(BASE_DIR, 'static')
+)
+
+
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-# Logging setup
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
@@ -50,8 +54,11 @@ def extract_keywords():
 
 @app.route('/favicon.png')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.png', mimetype='image/png')
+    return send_from_directory(
+        os.path.join(BASE_DIR, 'static'),
+        'favicon.png',
+        mimetype='image/png'
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)
