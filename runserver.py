@@ -17,10 +17,9 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-# Home route (prevents 404 on root)
 @app.route('/')
 def home():
-    return 
+    return ' Flask Keyword API is running.'
 
 # Favicon route
 @app.route('/favicon.png')
