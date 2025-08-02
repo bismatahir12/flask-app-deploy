@@ -5,10 +5,13 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
-app = Flask(__name__)
+# Initialize Flask app with correct templates directory
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
+# Optional: for debug - shows template path
 print("Templates folder path:", app.template_folder)
 
+# Load environment variables
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
