@@ -7,6 +7,7 @@ views = Blueprint('views', __name__)
 def home():
     return render_template('form.html')
 
+
 @views.route('/api/v1/keywords', methods=['POST'])
 def extract_keywords():
     data = request.get_json()
