@@ -6,6 +6,8 @@ import logging
 from datetime import datetime
 
 app = Flask(__name__)
+
+
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -15,7 +17,12 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
+# Home route (prevents 404 on root)
+@app.route('/')
+def home():
+    return 
 
+# Favicon route
 @app.route('/favicon.png')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
@@ -44,6 +51,7 @@ def extract_keywords():
     except Exception as e:
         logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)
