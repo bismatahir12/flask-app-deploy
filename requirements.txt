@@ -1,7 +1,3 @@
 Flask
-yake
-python-dotenv
-regex
-nltk
-numpy
 textblob
+python-dotenv
