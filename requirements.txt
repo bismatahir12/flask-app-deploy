@@ -4,3 +4,4 @@ python-dotenv
 regex
 nltk
 numpy
+textblob
