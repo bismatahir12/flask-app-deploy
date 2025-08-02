@@ -22,5 +22,10 @@ It is deployed serverlessly on [Vercel](https://vercel.com).
 
 Refer to the screenshots in the [screenshots](./screenshots/) folder for Postman request and response examples.
 
+## 📄 Final Report
+
+[Click here to view the final report](./Final_Report.pdf)
+
+
 
 
