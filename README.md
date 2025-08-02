@@ -24,7 +24,8 @@ Refer to the screenshots in the [screenshots](./screenshots/) folder for Postman
 
 ##  Final Report
 
-[Click here to view the final report](Final Report.pdf)
+[Click here to view the Final Report](Final%20Report.pdf)
+
 
 
 
