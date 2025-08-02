@@ -47,9 +47,10 @@ def extract_keywords():
         logging.info(f"{timestamp} - {route} - Success")
         return jsonify({'keywords': keyword_list}), 200
 
-    except Exception as e:
-        logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
-        return jsonify({'error': 'Internal Server Error'}), 500
+   except Exception as e:
+    logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
+    return jsonify({'error': str(e)}), 500
+
 
 @app.route('/favicon.png')
 def favicon():
