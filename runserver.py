@@ -1,28 +1,28 @@
 import os
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from textblob import TextBlob
 from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
-from flask import send_from_directory
+
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+
+app = Flask(__name__)
+
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 
 @app.route('/favicon.png')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.png', mimetype='image/png')
-
-load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-app = Flask(__name__)
-
-
-logging.basicConfig(
-    level=logging.INFO,  
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
 
 
 @app.route('/api/v1/keywords', methods=['POST'])
@@ -48,8 +48,5 @@ def extract_keywords():
         logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
         return jsonify({'error': 'Internal Server Error'}), 500
 
-
-    from api.app import app
-
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
