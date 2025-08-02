@@ -3,12 +3,12 @@ from textblob import TextBlob
 
 app = Blueprint('app', __name__)
 
-@views.route('/')
+@app.route('/')
 def home():
     return render_template('form.html')
 
 
-@views.route('/api/v1/keywords', methods=['POST'])
+@app.route('/api/v1/keywords', methods=['POST'])
 def extract_keywords():
     text = request.form.get('text', '')  # Use form data
     if not text:
