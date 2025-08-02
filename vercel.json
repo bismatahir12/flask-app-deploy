@@ -1,8 +1,7 @@
 {
-  "builds": [{ "src": "app.py", "use": "@vercel/python" }],
+  "builds": [{ "src": "runserver.py", "use": "@vercel/python" }],
   "routes": [
-    { "src": "/favicon.png", "dest": "/static/favicon.png" },
-    { "src": "/api/.*", "dest": "app.py" },
-    { "src": "/.*", "dest": "app.py" }
+    { "src": "/api/.*", "dest": "/runserver.py" },
+    { "src": "/.*", "dest": "/runserver.py" }
   ]
 }
