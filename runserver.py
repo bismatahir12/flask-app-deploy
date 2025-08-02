@@ -13,10 +13,10 @@ app = Flask(__name__)
 
 
 logging.basicConfig(
-    filename='server.log',
-    level=logging.INFO,
+    level=logging.INFO,  
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
 
 @app.route('/api/v1/keywords', methods=['POST'])
 def extract_keywords():
