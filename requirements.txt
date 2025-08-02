@@ -1,6 +1,5 @@
 Flask
-yake
+textblob
 python-dotenv
-regex
 nltk
-numpy
+gunicorn

@@ -1,5 +1,7 @@
 import os
 from flask import Flask, request, jsonify, send_from_directory, render_template
+import nltk
+nltk.data.path.append('./nltk_data') 
 from textblob import TextBlob
 from dotenv import load_dotenv
 import logging
@@ -62,4 +64,3 @@ def favicon():
 
 if __name__ == '__main__':
     app.run(debug=True)
-whats wrog
