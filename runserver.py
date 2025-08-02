@@ -5,12 +5,9 @@ from dotenv import load_dotenv
 import logging
 from datetime import datetime
 
-
+app = Flask(__name__)
 load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-
-app = Flask(__name__)
 
 
 logging.basicConfig(
