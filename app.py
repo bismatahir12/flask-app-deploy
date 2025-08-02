@@ -1,126 +1,52 @@
+import os
+from flask import Flask, request, jsonify, render_template
+from textblob import TextBlob
+from dotenv import load_dotenv
+import logging
+from datetime import datetime
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Keyword Extractor</title>
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 40px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, 'templates'),
+    static_folder=os.path.join(BASE_DIR, 'static')
+)
 
-        h1 {
-            color: #2c3e50;
-            text-align: center;
-        }
+load_dotenv()
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-        textarea {
-            width: 100%;
-            height: 150px;
-            padding: 12px;
-            font-size: 16px;
-            margin-top: 20px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            resize: vertical;
-        }
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
-        button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 16px;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+@app.route('/')
+def home():
+    return render_template('form.html')
 
-        button:hover {
-            background-color: #34495e;
-        }
+@app.route('/api/v1/keywords', methods=['POST'])
+def extract_keywords():
+    timestamp = datetime.now().isoformat()
+    route = "/api/v1/keywords"
 
-        #result {
-            margin-top: 30px;
-            background: #fdfdfd;
-            padding: 20px;
-            border-left: 5px solid #2c3e50;
-            border-radius: 4px;
-        }
+    try:
+        data = request.get_json()
+        text = data.get('text', '')
 
-        .error {
-            color: red;
-            font-weight: bold;
-        }
+        if not text:
+            logging.warning(f"{timestamp} - {route} - Missing text field")
+            return jsonify({'error': 'Missing text field'}), 400
 
-        .keywords {
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Keyword Extractor</h1>
-        <form id="keywordForm">
-            <label for="textInput">Enter your text below:</label>
-            <textarea id="textInput" placeholder="e.g., Social media platforms like Twitter and Instagram..."></textarea>
-            <button type="submit">Extract Keywords</button>
-        </form>
-        <div id="result"></div>
-    </div>
+        blob = TextBlob(text)
+        keywords = list(set(blob.noun_phrases))  # Still works unless required corpora are missing
 
-    <script>
-        const form = document.getElementById('keywordForm');
-        const resultDiv = document.getElementById('result');
+        logging.info(f"{timestamp} - {route} - Success")
+        return jsonify({'keywords': keywords}), 200
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            resultDiv.innerHTML = '';  // Clear previous result
+    except Exception as e:
+        logging.error(f"{timestamp} - {route} - ERROR: {str(e)}")
+        return jsonify({'error': 'Internal Server Error'}), 500
 
-            const text = document.getElementById('textInput').value.trim();
-
-            if (!text) {
-                resultDiv.innerHTML = `<p class="error">Please enter some text to extract keywords.</p>`;
-                return;
-            }
-
-            try {
-                const response = await fetch('/api/v1/keywords', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    resultDiv.innerHTML = `
-                        <strong>Extracted Keywords:</strong>
-                        <div class="keywords">${data.keywords.join(', ')}</div>
-                    `;
-                } else {
-                    resultDiv.innerHTML = `<p class="error">Error: ${data.error}</p>`;
-                }
-            } catch (err) {
-                resultDiv.innerHTML = `<p class="error">Unexpected error occurred. Please try again later.</p>`;
-                console.error(err);
-            }
-        });
-    </script>
-</body>
-</html>
+if __name__ == '__main__':
+    app.run(debug=True)
